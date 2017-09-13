@@ -136,4 +136,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' # path @ which to serve static files
+
+STATIC_ROOT = str(ROOT_DIR('staticfiles')) # collection dest for static files
+
+STATICFILES_DIRS = ( # dirs for Django to collect static files from
+    str(APPS_DIR.path('static')),
+)
+
+STATICFILES_FINDERS = ( # specs for what files to lookfor
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+MEDIA_URL = '/media' # path @ which to serve media databases
+
+MEDIA_ROOT = str(APPS_DIR('media')) # collection dest for media files
