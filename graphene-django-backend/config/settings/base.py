@@ -33,8 +33,7 @@ if READ_DOT_ENV_FILE:
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$ddhue(=qe14tlx(#dk2&x6r#ky4pk4f6tx9mvnhfdx_*7v)r6'
+# (secret keys set in local, production and test)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
