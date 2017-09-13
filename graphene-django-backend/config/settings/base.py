@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import environ
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: str(ROOT_DIR.path('addn_path'))
 ROOT_DIR = environ.Path(__file__) - 3 # computes to graphene-django-backend/
 APPS_DIR = ROOT_DIR.path('project')
 
