@@ -36,7 +36,7 @@ if READ_DOT_ENV_FILE:
 # (secret keys set in local, production and test)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DJANGO_DEBUG', False)
 
 ALLOWED_HOSTS = []
 
