@@ -33,12 +33,10 @@ if READ_DOT_ENV_FILE:
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
-# (secret keys set in local, production and test)
+# (secret keys, allow_hosts set in local, production and test)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DJANGO_DEBUG', False)
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
