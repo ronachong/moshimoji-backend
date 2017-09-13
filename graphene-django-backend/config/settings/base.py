@@ -149,6 +149,6 @@ STATICFILES_FINDERS = ( # specs for what files to lookfor
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-MEDIA_URL = '/media' # path @ which to serve media databases
+MEDIA_URL = '/media/' # path @ which to serve media databases
 
 MEDIA_ROOT = str(APPS_DIR('media')) # collection dest for media files
