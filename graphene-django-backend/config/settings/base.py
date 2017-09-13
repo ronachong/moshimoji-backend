@@ -16,6 +16,19 @@ import environ
 ROOT_DIR = environ.Path(__file__) - 3 # computes to graphene-django-backend/
 APPS_DIR = ROOT_DIR.path('project')
 
+# Import environment vars in .env
+# following: https://medium.com/@djstein/modern-django-part-1-project-refactor-and-meeting-the-django-settings-api-d2784efb606f
+env = environ.Env() # will search for .env in projectroot
+
+# This section added from an update to standards in CookieCutter Django to
+# ensure no errors are encountered at runserver/migrations
+READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=False)
+if READ_DOT_ENV_FILE:
+    env_file = str(ROOT_DIR.path('.env'))
+    print('Loading : {}'.format(env_file))
+    env.read_env(env_file)
+    print('The .env file has been loaded. See base.py for more information')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
