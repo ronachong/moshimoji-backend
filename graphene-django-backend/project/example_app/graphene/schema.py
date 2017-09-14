@@ -26,11 +26,15 @@ class MangaSeriesType(DjangoObjectType):
 class Query(graphene.ObjectType):
     all_genres = graphene.List(GenreType)
     all_authors = graphene.List(AuthorType)
+    all_manga_series = graphene.List(MangaSeriesType)
 
     def resolve_all_genres(self, info, **kwargs):
         return Genre.objects.all()
 
     def resolve_all_authors(self, info, **kwargs):
         return Author.objects.all()
+
+    def resolve_all_manga_series(self, info, **kwargs):
+        return MangaSeries.objects.all()
 
 schema = graphene.Schema(query=Query)
