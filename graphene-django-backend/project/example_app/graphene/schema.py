@@ -13,14 +13,17 @@ from project.example_app.models import Genre, Author, MangaSeries
 class GenreType(DjangoObjectType):
     class Meta:
         model = Genre
+        interfaces = (graphene.Node, )
 
 class AuthorType(DjangoObjectType):
     class Meta:
         model = Author
+        interfaces = (graphene.Node, )
 
 class MangaSeriesType(DjangoObjectType):
     class Meta:
         model = MangaSeries
+        interfaces = (graphene.Node, )
 
 
 ''' Query type definition for GraphQL server, with resolver defs for fields '''
