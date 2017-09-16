@@ -16,60 +16,36 @@ class GenreNode(DjangoObjectType):
         filter_fields = {
             'name': ['icontains', 'exact'],
         }
-        interfaces = (graphene.Node, )
+        interfaces = (graphene.relay.Node, )
 
-class AuthorType(DjangoObjectType):
+class AuthorNode(DjangoObjectType):
     class Meta:
         model = Author
         filter_fields = ['first_name', 'last_name']
-        interfaces = (graphene.Node, )
+        interfaces = (graphene.relay.Node, )
 
-class MangaSeriesType(DjangoObjectType):
+class MangaSeriesNode(DjangoObjectType):
     class Meta:
         model = MangaSeries
         filter_fields = ['title', 'author', 'genre']
-        interfaces = (graphene.Node, )
+        interfaces = (graphene.relay.Node, )
 
 
 ''' Query type definition for GraphQL server '''
 class Query(graphene.ObjectType):
     # field definitions
-    genre = graphene.Field(GenreNode,
-        id=graphene.Int(),
-        name=graphene.String()
-    )
-    author = graphene.Field(AuthorType,
-        id=graphene.Int(),
-        first_name=graphene.String(),
-        last_name=graphene.String()
-    )
-    manga_series = graphene.Field(MangaSeriesType,
-        id=graphene.Int(),
-        title=graphene.String(),
-    )
+    genre = graphene.relay.Node.Field(GenreNode)
+    author = graphene.relay.Node.Field(AuthorNode)
+    manga_series = graphene.relay.Node.Field(MangaSeriesNode)
 
     all_genres = DjangoFilterConnectionField(GenreNode)
-    all_authors = DjangoFilterConnectionField(AuthorType)
-    all_manga_series = DjangoFilterConnectionField(MangaSeriesType)
+    all_authors = DjangoFilterConnectionField(AuthorNode)
+    all_manga_series = DjangoFilterConnectionField(MangaSeriesNode)
 
-    # field resolvers (resolvers for 'connection' fields skipped since
-    # DjangoFilterConnectionField supplies functionality)
-    def resolve_genre(self, info, **kwargs):
-        id = kwargs.get('id')
-        name = kwargs.get('name')
+    # field resolvers for 'connection', Relay node fields skipped since
+    # DjangoFilterConnectionField and relay replace functionality
 
-        if id: # should not be None
-            return Genre.objects.get(pk=id)
-        if name:
-            return Genre.objects.get(name=name)
-        return None
-
-    def resolve_author(self, info, **kwargs):
-        """TBI"""
-        pass
-
-    def resolve_manga_series(self, info, **kwargs):
-        """TBI"""
-        pass
+    # if I add resolvers for relay node fields, they seem ineffectual. how am I
+    # supposed to add handlers for custom args?
 
 schema = graphene.Schema(query=Query)
