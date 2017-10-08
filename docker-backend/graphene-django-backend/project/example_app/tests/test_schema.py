@@ -13,6 +13,7 @@ def test_status_type():
     assert instance
 
 def test_all_statuses():
+    '''Test that query for allStatuses field returns resp of expected len.'''
     graphene_client = Client(schema)
     executed = graphene_client.execute('''{
         allStatuses {
