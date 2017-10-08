@@ -3,13 +3,22 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter.fields import DjangoFilterConnectionField
 
-from project.example_app.models import Genre, Author, MangaSeries
+from project.example_app.models import Status, Genre, Author, MangaSeries
 
 # for clarification on the boilerplate in this file, first read graphene docs.
 # then read at docs.graphene-python.org
 # you could also read about models under django
 
 ''' Object type definitions for GraphQL server '''
+class StatusNode(DjangoObjectType):
+    class Meta:
+        model = Status
+        # do I need any filter fields?
+        filter_fields = {
+            'user': ['exact']
+        }
+        interfaces = (graphene.relay.Node, )
+
 class GenreNode(DjangoObjectType):
     class Meta:
         model = Genre
@@ -38,6 +47,7 @@ class Query(graphene.ObjectType):
     author = graphene.relay.Node.Field(AuthorNode)
     manga_series = graphene.relay.Node.Field(MangaSeriesNode)
 
+    all_statuses = DjangoFilterConnectionField(StatusNode)
     all_genres = DjangoFilterConnectionField(GenreNode)
     all_authors = DjangoFilterConnectionField(AuthorNode)
     all_manga_series = DjangoFilterConnectionField(MangaSeriesNode)
