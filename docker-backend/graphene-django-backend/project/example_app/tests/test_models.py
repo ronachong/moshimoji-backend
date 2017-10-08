@@ -5,7 +5,7 @@ from mixer.backend.django import mixer
 # pytestmark makes writing to db possible in test
 pytestmark = pytest.mark.django_db
 
-def test_status_model():
-    '''Test successful creation of Status instance and storage in DB.'''
-    inst = mixer.blend('example_app.Status')
+def test_user_status_model():
+    '''Test successful creation of UserStatus instance and storage in DB.'''
+    inst = mixer.blend('example_app.UserStatus')
     assert inst.pk > 0

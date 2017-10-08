@@ -7,16 +7,16 @@ from graphene.test import Client
 
 pytestmark = pytest.mark.django_db
 
-def test_status_type():
-    '''Test that GraphQL type for Status model exists and can be used.'''
-    instance = schema.StatusNode()
+def test_user_status_type():
+    '''Test that GraphQL type for UserStatus model exists and can be used.'''
+    instance = schema.UserStatusNode()
     assert instance
 
-def test_all_statuses():
-    '''Test that query for allStatuses field returns resp of expected len.'''
+def test_all_user_statuses():
+    '''Test that query for allUserStatuses field returns resp of expected len.'''
     graphene_client = Client(schema)
     executed = graphene_client.execute('''{
-        allStatuses {
+        allUserStatuses {
             edges {
                 node {
                     id,
@@ -25,14 +25,14 @@ def test_all_statuses():
             }
         }
     }''')
-    assert len(executed['data']['allStatuses']['edges']) == 0
+    assert len(executed['data']['allUserStatuses']['edges']) == 0
 
-    mixer.blend('example_app.Status')
-    mixer.blend('example_app.Status')
-    mixer.blend('example_app.Status')
+    mixer.blend('example_app.UserStatus')
+    mixer.blend('example_app.UserStatus')
+    mixer.blend('example_app.UserStatus')
 
     executed = graphene_client.execute('''{
-        allStatuses {
+        allUserStatuses {
             edges {
                 node {
                     id,
@@ -47,13 +47,13 @@ def test_all_statuses():
     print (isinstance(schema, Schema))
     print(executed)
 
-    assert len(executed['data']['allStatuses']['edges']) == 3, 'Should return count of all messages in DB'
+    assert len(executed['data']['allUserStatuses']['edges']) == 3, 'Should return count of all messages in DB'
 
-    # In mbrocch's tests, he tests the resolver for all statuses.
+    # In mbrocch's tests, he tests the resolver for all user_statuses.
     # Since I do not specify a resolver and do not know how the DjangoConnxnField
     # resolver gets called in practice, I've skip this test for now.
     # q = schema.Query()
-    # res = q.all_statuses
+    # res = q.all_user_statuses
     # print(
     #     dir(res),
     #     res.default_value,
