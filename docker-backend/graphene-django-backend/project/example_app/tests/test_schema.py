@@ -64,15 +64,15 @@ def test_all_user_statuses():
     #     )
     #assert res.count() == 2, 'Should return count of all messages in DB'
 
+
 class TestCreateUserStatusMutationClass(object):
     @pytest.fixture
-    def user_status_mut():
-        return schema.CreateUserStatusMutation()
+    def user_status_mut(self):
+            return schema.CreateUserStatusMutation()
 
-    # for some reason, calls to user are being provided an arg, raising Exception
-    # @pytest.fixture
-    # def user():
-    #     return mixer.blend('auth.User')
+    @pytest.fixture
+    def user(self):
+        return mixer.blend('auth.User')
 
     # @pytest.fixture
     # def good_data_input():
@@ -82,28 +82,27 @@ class TestCreateUserStatusMutationClass(object):
     # def get_req_to_root():
     #     return RequestFactory().get('/')
 
-    def test_mut_res_when_user_not_logged_in(user_status_mut):
+    def test_mut_res_when_user_not_logged_in(self, user_status_mut):
         data = {'status': 'Test submission'}
         req = RequestFactory().get('/')
         req.user = AnonymousUser()
         res = user_status_mut.mutate(None, data, req, None)
         assert res.status == 403, 'Should return 403 if user is not logged in'
 
-    # def test_mut_res_when_form_improper(user_status_mut, user):
-    def test_mut_res_when_form_improper(user_status_mut):
+    def test_mut_res_when_form_improper(self, user_status_mut, user):
         data = {}
         req = RequestFactory().get('/')
-        req.user = mixer.blend('auth.User')
-        res = mut.mutate(None, data, req, None)
+        req.user = user
+        res = user_status_mut.mutate(None, data, req, None)
         assert res.status == 400, 'Should return 400 if there are form errors'
         assert 'message' in res.formErrors, (
             'Should have form error for message field')
 
-    # def test_mut_res_when_form_proper_and_user_logged_in(user_status_mut, user):
-    def test_mut_res_when_form_proper_and_user_logged_in(user_status_mut):
+    def test_mut_res_when_form_proper_and_user_logged_in(self, user_status_mut, user):
         data = {'status': 'Test submission'}
-        req.user = mixer.blend('auth.User')
-        res = mut.mutate(None, data, req, None)
+        req = RequestFactory().get('/')
+        req.user = user
+        res = user_status_mut.mutate(None, data, req, None)
         assert res.status == 200, (
             'Should return 200 if there are no form errors and user logged in')
         assert res.message.pk == 1, 'Should create new message'
