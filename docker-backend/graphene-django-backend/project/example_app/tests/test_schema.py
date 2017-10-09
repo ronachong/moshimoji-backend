@@ -87,22 +87,22 @@ class TestCreateUserStatusMutationClass(object):
         req = RequestFactory().get('/')
         req.user = AnonymousUser()
         res = user_status_mut.mutate(None, data, req, None)
-        assert res.status == 403, 'Should return 403 if user is not logged in'
+        assert res.req_status == 403, 'Should return 403 if user is not logged in'
 
     def test_mut_res_when_form_improper(self, user_status_mut, user):
         data = {}
         req = RequestFactory().get('/')
         req.user = user
         res = user_status_mut.mutate(None, data, req, None)
-        assert res.status == 400, 'Should return 400 if there are form errors'
-        assert 'message' in res.formErrors, (
-            'Should have form error for message field')
+        assert res.req_status == 400, 'Should return 400 if there are form errors'
+        assert 'text' in res.form_errors, (
+            'Should have form error for user status field')
 
     def test_mut_res_when_form_proper_and_user_logged_in(self, user_status_mut, user):
         data = {'status': 'Test submission'}
         req = RequestFactory().get('/')
         req.user = user
         res = user_status_mut.mutate(None, data, req, None)
-        assert res.status == 200, (
+        assert res.req_status == 200, (
             'Should return 200 if there are no form errors and user logged in')
         assert res.message.pk == 1, 'Should create new message'

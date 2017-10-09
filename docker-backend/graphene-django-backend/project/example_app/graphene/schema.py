@@ -1,4 +1,5 @@
 import graphene
+import json
 
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter.fields import DjangoFilterConnectionField
@@ -58,4 +59,38 @@ class Query(graphene.ObjectType):
     # if I add resolvers for relay node fields, they seem ineffectual. how am I
     # supposed to add handlers for custom args?
 
-schema = graphene.Schema(query=Query)
+''' Mutation field definitions for GraphQL server '''
+class CreateUserStatusMutation(graphene.Mutation):
+    class Input:
+        text = graphene.String()
+
+    req_status = graphene.Int()
+    form_errors = graphene.String()
+    user_status = graphene.Field(UserStatusNode)
+
+    @staticmethod
+    def mutate(root, args, context, info):
+        if not context.user.is_authenticated():
+            return CreateUserStatusMutation(req_status=403)
+        text = args.get('text', '').strip()
+
+        # TODO: add input validation using Django forms?
+        if not text:
+            return CreateUserStatusMutation(
+                req_status=400,
+                form_errors=json.dumps(
+                    {'status': ['Please enter text for the status.'] }
+                )
+            )
+
+        obj = UserStatus.objects.create(
+            user=context.user,
+            text=text,
+        )
+        return CreateUserStatusMutation(req_status=200, user_status=obj)
+
+''' Mutation type definition for GraphQL server '''
+class Mutation(graphene.ObjectType):
+    create_user_status = CreateUserStatusMutation.Field()
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
