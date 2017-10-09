@@ -69,9 +69,10 @@ class TestCreateUserStatusMutationClass(object):
     def user_status_mut():
         return schema.CreateUserStatusMutation()
 
-    @pytest.fixture
-    def user():
-        return mixer.blend('auth.User')
+    # for some reason, calls to user are being provided an arg, raising Exception
+    # @pytest.fixture
+    # def user():
+    #     return mixer.blend('auth.User')
 
     # @pytest.fixture
     # def good_data_input():
@@ -88,18 +89,20 @@ class TestCreateUserStatusMutationClass(object):
         res = user_status_mut.mutate(None, data, req, None)
         assert res.status == 403, 'Should return 403 if user is not logged in'
 
-    def test_mut_res_when_form_improper(user_status_mut, user):
+    # def test_mut_res_when_form_improper(user_status_mut, user):
+    def test_mut_res_when_form_improper(user_status_mut):
         data = {}
         req = RequestFactory().get('/')
-        req.user = user
+        req.user = mixer.blend('auth.User')
         res = mut.mutate(None, data, req, None)
         assert res.status == 400, 'Should return 400 if there are form errors'
         assert 'message' in res.formErrors, (
             'Should have form error for message field')
 
-    def test_mut_res_when_form_proper_and_user_logged_in(user_status_mut, user):
+    # def test_mut_res_when_form_proper_and_user_logged_in(user_status_mut, user):
+    def test_mut_res_when_form_proper_and_user_logged_in(user_status_mut):
         data = {'status': 'Test submission'}
-        req.user = user
+        req.user = mixer.blend('auth.User')
         res = mut.mutate(None, data, req, None)
         assert res.status == 200, (
             'Should return 200 if there are no form errors and user logged in')
