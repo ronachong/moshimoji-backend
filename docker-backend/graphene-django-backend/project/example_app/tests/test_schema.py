@@ -74,16 +74,17 @@ class TestCreateUserStatusMutationClass(object):
     def user(self):
         return mixer.blend('auth.User')
 
-    # @pytest.fixture
-    # def good_data_input():
-    #     return {'status': 'Test submission'}
+    @pytest.fixture
+    def proper_data_input(self):
+        return {'text': 'Test submission'}
 
     # @pytest.fixture
     # def get_req_to_root():
     #     return RequestFactory().get('/')
 
-    def test_mut_res_when_user_not_logged_in(self, user_status_mut):
-        data = {'status': 'Test submission'}
+    def test_mut_res_when_user_not_logged_in(
+        self, user_status_mut, proper_data_input):
+        data = proper_data_input
         req = RequestFactory().get('/')
         req.user = AnonymousUser()
         res = user_status_mut.mutate(None, data, req, None)
@@ -98,11 +99,12 @@ class TestCreateUserStatusMutationClass(object):
         assert 'text' in res.form_errors, (
             'Should have form error for user status field')
 
-    def test_mut_res_when_form_proper_and_user_logged_in(self, user_status_mut, user):
-        data = {'status': 'Test submission'}
+    def test_mut_res_when_form_proper_and_user_logged_in(
+        self, user_status_mut, user, proper_data_input):
+        data = proper_data_input
         req = RequestFactory().get('/')
         req.user = user
         res = user_status_mut.mutate(None, data, req, None)
         assert res.req_status == 200, (
             'Should return 200 if there are no form errors and user logged in')
-        assert res.message.pk == 1, 'Should create new message'
+        assert res.user_status.pk == 1, 'Should create new message'
