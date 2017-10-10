@@ -61,7 +61,7 @@ class Query(graphene.ObjectType):
 
 ''' Mutation field definitions for GraphQL server '''
 class CreateUserStatusMutation(graphene.Mutation):
-    class Input:
+    class Arguments:
         text = graphene.String()
 
     req_status = graphene.Int()
@@ -69,13 +69,12 @@ class CreateUserStatusMutation(graphene.Mutation):
     user_status = graphene.Field(UserStatusNode)
 
     @staticmethod
-    def mutate(root, args, context, info):
-        if not context.user.is_authenticated():
+    # def mutate(root, args, context, info, text=None):
+    def mutate(root, info, text=None):
+        if not info.context['user'].is_authenticated():
             return CreateUserStatusMutation(req_status=403)
-        text = args.get('text', '').strip()
 
-        # TODO: add input validation using Django forms?
-        if not text:
+        if not isinstance(text, str) or not text:
             return CreateUserStatusMutation(
                 req_status=400,
                 form_errors=json.dumps(
@@ -84,10 +83,16 @@ class CreateUserStatusMutation(graphene.Mutation):
             )
 
         obj = UserStatus.objects.create(
-            user=context.user,
+            user=info.context['user'],
             text=text,
         )
-        return CreateUserStatusMutation(req_status=200, user_status=obj)
+
+        # instead of user_status=obj, shouldn't it be user_status=node..?
+        return CreateUserStatusMutation(
+            req_status=200,
+            form_errors=None,
+            user_status=obj
+        )
 
 ''' Mutation type definition for GraphQL server '''
 class Mutation(graphene.ObjectType):
