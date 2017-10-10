@@ -68,7 +68,7 @@ def test_all_user_statuses():
 
 class TestCreateUserStatusMutationClass(object):
     @pytest.fixture
-    def user_status_mut(self):
+    def CreateUserStatusMutation_inst(self):
             return schema.CreateUserStatusMutation()
 
     @pytest.fixture
@@ -99,27 +99,30 @@ class TestCreateUserStatusMutationClass(object):
         )
 
     def test_mut_res_when_user_not_logged_in(
-        self, user_status_mut, proper_input, anon, dummy_info):
+        self, CreateUserStatusMutation_inst, proper_input, anon, dummy_info):
         dummy_info.context = {'user': anon}
-        res = user_status_mut.mutate(None, dummy_info, **proper_input)
+        res = CreateUserStatusMutation_inst.mutate(None, dummy_info, **proper_input)
         assert res.req_status == 403, 'Should return 403 if user is not logged in'
 
-    def test_mut_res_when_form_improper(self, user_status_mut, user, dummy_info):
+    def test_mut_res_when_form_improper(self, CreateUserStatusMutation_inst, user, dummy_info):
         dummy_info.context = {'user': user}
-        res = user_status_mut.mutate(None, dummy_info, **{})
+        res = CreateUserStatusMutation_inst.mutate(None, dummy_info, **{})
         assert res.req_status == 400, 'Should return 400 if there are form errors'
         assert 'text' in res.form_errors, (
             'Should have form error for user status field')
 
     def test_mut_res_when_form_proper_and_user_logged_in(
-        self, user_status_mut, user, proper_input, dummy_info):
+        self, CreateUserStatusMutation_inst, user, proper_input, dummy_info):
         dummy_info.context = {'user': user}
-        res = user_status_mut.mutate(None, dummy_info, **proper_input)
+        res = CreateUserStatusMutation_inst.mutate(None, dummy_info, **proper_input)
         assert res.req_status == 200, (
             'Should return 200 if there are no form errors and user logged in')
         assert res.user_status.pk == 1, 'Should create new message'
 
     def test_mut_res_when_form_proper_and_user_logged_in_2(self, user):
+        '''Note that this test actually checks that resolver works with graphene.
+        (Other unit tests only check that mutation resolver behaves as intended)
+        '''
         graphene_client = Client(
             schema,
         )
