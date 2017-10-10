@@ -1,11 +1,12 @@
 import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
+from graphene.test import Client
+from graphene import Schema
+from graphql.execution.base import ResolveInfo
 from mixer.backend.django import mixer
 
 from ..graphene.schema import schema
-from graphene import Schema
-from graphene.test import Client
 
 pytestmark = pytest.mark.django_db
 
@@ -75,36 +76,67 @@ class TestCreateUserStatusMutationClass(object):
         return mixer.blend('auth.User')
 
     @pytest.fixture
-    def proper_data_input(self):
+    def anon(self):
+        return AnonymousUser()
+
+    @pytest.fixture
+    def proper_input(self):
         return {'text': 'Test submission'}
 
-    # @pytest.fixture
-    # def get_req_to_root():
-    #     return RequestFactory().get('/')
+    @pytest.fixture
+    def dummy_info(self):
+        return ResolveInfo(
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None
+        )
 
     def test_mut_res_when_user_not_logged_in(
-        self, user_status_mut, proper_data_input):
-        data = proper_data_input
-        req = RequestFactory().get('/')
-        req.user = AnonymousUser()
-        res = user_status_mut.mutate(None, data, req, None)
+        self, user_status_mut, proper_input, anon, dummy_info):
+        dummy_info.context = {'user': anon}
+        res = user_status_mut.mutate(None, dummy_info, **proper_input)
         assert res.req_status == 403, 'Should return 403 if user is not logged in'
 
-    def test_mut_res_when_form_improper(self, user_status_mut, user):
-        data = {}
-        req = RequestFactory().get('/')
-        req.user = user
-        res = user_status_mut.mutate(None, data, req, None)
+    def test_mut_res_when_form_improper(self, user_status_mut, user, dummy_info):
+        dummy_info.context = {'user': user}
+        res = user_status_mut.mutate(None, dummy_info, **{})
         assert res.req_status == 400, 'Should return 400 if there are form errors'
         assert 'text' in res.form_errors, (
             'Should have form error for user status field')
 
     def test_mut_res_when_form_proper_and_user_logged_in(
-        self, user_status_mut, user, proper_data_input):
-        data = proper_data_input
-        req = RequestFactory().get('/')
-        req.user = user
-        res = user_status_mut.mutate(None, data, req, None)
+        self, user_status_mut, user, proper_input, dummy_info):
+        dummy_info.context = {'user': user}
+        res = user_status_mut.mutate(None, dummy_info, **proper_input)
         assert res.req_status == 200, (
             'Should return 200 if there are no form errors and user logged in')
         assert res.user_status.pk == 1, 'Should create new message'
+
+    def test_mut_res_when_form_proper_and_user_logged_in_2(self, user):
+        graphene_client = Client(
+            schema,
+        )
+        executed = graphene_client.execute(
+            '''mutation {
+                createUserStatus(text: "Test") {
+                    userStatus {
+                        id,
+                        text
+                    }
+                    formErrors,
+                    reqStatus
+                }
+            }''',
+            context_value={'user': user},
+        )
+        print(executed)
+
+        assert executed['data']['createUserStatus']['userStatus']['text'] == "Test", (
+            'Should be status text submitted in mutation')
