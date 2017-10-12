@@ -30,9 +30,9 @@ def test_all_user_statuses():
     }''')
     assert len(executed['data']['allUserStatuses']['edges']) == 0
 
-    mixer.blend('example_app.UserStatus')
-    mixer.blend('example_app.UserStatus')
-    mixer.blend('example_app.UserStatus')
+    mixer.blend('gql_platform.UserStatus')
+    mixer.blend('gql_platform.UserStatus')
+    mixer.blend('gql_platform.UserStatus')
 
     executed = graphene_client.execute('''{
         allUserStatuses {

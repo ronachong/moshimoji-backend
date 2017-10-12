@@ -4,7 +4,7 @@ import json
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter.fields import DjangoFilterConnectionField
 
-from project.example_app.models import UserStatus, Genre, Author, MangaSeries
+from project.gql_platform.models import UserStatus, Genre, Author, MangaSeries
 
 # for clarification on the boilerplate in this file, first read graphene docs.
 # then read at docs.graphene-python.org

@@ -22,14 +22,15 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 
-from project.example_app.graphene.schema import schema
+from project.gql_platform.graphene.schema import schema
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^graphiql', GraphQLView.as_view(graphiql=True, schema=schema)),
-    url(r'^gql', csrf_exempt(GraphQLView.as_view(batch=True))),
+    # url(r'^gql', csrf_exempt(GraphQLView.as_view(batch=True,schema=schema))),\
+    url(r'^gql', csrf_exempt(GraphQLView.as_view(batch=False,schema=schema))),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
-    # url(r'^', include('project.example_app.urls')),
+    # url(r'^', include('project.gql_platform.urls')),
 ]

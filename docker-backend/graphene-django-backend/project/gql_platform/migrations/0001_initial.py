@@ -36,8 +36,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=1000)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='manga_series', to='example_app.Author')),
-                ('genre', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='manga_series', to='example_app.Genre')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='manga_series', to='gql_platform.Author')),
+                ('genre', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='manga_series', to='gql_platform.Genre')),
             ],
         ),
         migrations.CreateModel(

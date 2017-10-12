@@ -7,5 +7,5 @@ pytestmark = pytest.mark.django_db
 
 def test_user_status_model():
     '''Test successful creation of UserStatus instance and storage in DB.'''
-    inst = mixer.blend('example_app.UserStatus')
+    inst = mixer.blend('gql_platform.UserStatus')
     assert inst.pk > 0
