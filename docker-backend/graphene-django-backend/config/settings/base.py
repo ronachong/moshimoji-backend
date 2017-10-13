@@ -51,6 +51,7 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'graphene_django',
+    'django_filters',
     'rest_framework',
     'corsheaders',
 )
