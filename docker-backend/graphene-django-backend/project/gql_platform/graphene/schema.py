@@ -81,6 +81,8 @@ class MangaSeriesNode(DjangoObjectType):
 ''' Query type definition for GraphQL server '''
 class Query(graphene.ObjectType):
     # field definitions
+    current_user = graphene.Field(UserNode)
+
     user = graphene.relay.Node.Field(UserNode)
     genre = graphene.relay.Node.Field(GenreNode)
     author = graphene.relay.Node.Field(AuthorNode)
@@ -99,6 +101,10 @@ class Query(graphene.ObjectType):
 
     # field resolvers for 'connection', Relay node fields skipped since
     # DjangoFilterConnectionField and relay replace functionality, it seems?
+    def resolve_current_user(self, info):
+        if not info.context.user.is_authenticated():
+            return None
+        return info.context.user
 
     # def resolve_user_statuses(self, info):
     #     return graphene.relay.ConnectionField.resolve_connection(
