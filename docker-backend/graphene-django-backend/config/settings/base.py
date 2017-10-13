@@ -75,9 +75,12 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True # TODO: check if this needs to be changed for prod
 
-MIDDLEWARE = [
+JWT_VERIFY_EXPIRATION = False # TODO: change this to expire in future
+
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'project.custom_middleware.jwt.JWTMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
