@@ -14,7 +14,7 @@ from project.gql_platform.models import UserStatus, Genre, Author, MangaSeries
 # you could also read about models under django
 
 ''' Object type definitions for GraphQL server '''
-# do I want everything to be a node, or just certain types?
+# TODO: determine if I want everything to be a node, or just certain object types
 
 class UserStatusNode(DjangoObjectType):
     class Meta:
@@ -31,32 +31,6 @@ class UserNode(DjangoObjectType):
         model = User
         filter_fields = ['id']
         interfaces = (graphene.relay.Node, )
-
-# seems like this version of classes to get User
-# class UserStatusConnection(graphene.relay.Connection)
-#     class Meta:
-#         node = UserStatusNode
-#
-# class User(DjangoObjectType):
-#     class Meta:
-#         model = UserStatus
-#     statuses = graphene.relay.ConnectionField(UserStatusConnection)
-#
-#     def resolve_ships(self, info):
-#         return graphene.relay.ConnectionField.resolve_connection(
-#             UserStatusConnection,
-#             args,
-#             ???
-#         )
-
-# not using custom filter set atm
-# class UserStatusFilter(django_filters.FilterSet):
-#     # Do case-insensitive partial lookups on 'text'
-#     text = django_filters.CharFilter(lookup_expr=['icontains'])
-#
-#     class Meta:
-#         model = UserStatus
-#         fields = ['user', 'text', 'creation_date']
 
 class GenreNode(DjangoObjectType):
     class Meta:
@@ -88,34 +62,18 @@ class Query(graphene.ObjectType):
     author = graphene.relay.Node.Field(AuthorNode)
     manga_series = graphene.relay.Node.Field(MangaSeriesNode)
 
-    # even though doc says to explicitly declare connections, it seems like I
-    # don't need to do this to have a userStatusConnection/access userStatusSet?
-    # user_status_connections = graphene.relay.ConnectionField(UserStatusConnection)
-
     all_users = DjangoFilterConnectionField(UserNode)
-    # all_user_statuses = DjangoFilterConnectionField(UserStatusNode, filterset_class=UserStatusFilter)
     all_user_statuses = DjangoFilterConnectionField(UserStatusNode)
     all_genres = DjangoFilterConnectionField(GenreNode)
     all_authors = DjangoFilterConnectionField(AuthorNode)
     all_manga_series = DjangoFilterConnectionField(MangaSeriesNode)
 
-    # field resolvers for 'connection', Relay node fields skipped since
-    # DjangoFilterConnectionField and relay replace functionality, it seems?
+    # field resolvers for 'connection', Relay node fields skipped since it seems
+    # DjangoFilterConnectionField and relay replace functionality
     def resolve_current_user(self, info):
         if not info.context.user.is_authenticated():
             return None
         return info.context.user
-
-    # def resolve_user_statuses(self, info):
-    #     return graphene.relay.ConnectionField.resolve_connection(
-    #         UserStatusConnection,
-    #         args,
-    #         UserStatus.objects.filter(user=User.objects.all()[0])
-    #     )
-
-    # if I add resolvers for relay node fields, they seem ineffectual. how am I
-    # supposed to add handlers for custom args?
-
 
 
 ''' Mutation field definitions for GraphQL server '''
@@ -128,7 +86,6 @@ class CreateUserStatusMutation(graphene.Mutation):
     user_status = graphene.Field(UserStatusNode)
 
     @staticmethod
-    # def mutate(root, args, context, info, text=None):
     def mutate(root, info, text=None):
         if not info.context['user'].is_authenticated():
             return CreateUserStatusMutation(req_status=403)
@@ -146,7 +103,6 @@ class CreateUserStatusMutation(graphene.Mutation):
             text=text,
         )
 
-        # instead of user_status=obj, shouldn't it be user_status=node..?
         return CreateUserStatusMutation(
             req_status=200,
             form_errors=None,
