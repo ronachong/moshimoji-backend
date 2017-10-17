@@ -75,6 +75,12 @@ class Query(graphene.ObjectType):
             return None
         return info.context.user
 
+    # def resolve_user_statuses(self, info):
+    #     return graphene.relay.ConnectionField.resolve_connection(
+    #         UserStatusConnection,
+    #         args,
+    #         UserStatus.objects.filter(user=User.objects.all()[0])
+    #     )
 
 ''' Mutation field definitions for GraphQL server '''
 class CreateUserStatusMutation(graphene.Mutation):
@@ -87,7 +93,7 @@ class CreateUserStatusMutation(graphene.Mutation):
 
     @staticmethod
     def mutate(root, info, text=None):
-        if not info.context['user'].is_authenticated():
+        if not info.context.user.is_authenticated():
             return CreateUserStatusMutation(req_status=403)
 
         if not isinstance(text, str) or not text:
