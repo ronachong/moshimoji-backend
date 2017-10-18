@@ -94,18 +94,23 @@ class CreateUserStatusMutation(graphene.Mutation):
     @staticmethod
     def mutate(root, info, text=None):
         if not info.context.user.is_authenticated():
-            return CreateUserStatusMutation(req_status=403)
+            return CreateUserStatusMutation(
+                req_status=403,
+                user_status=None,
+                form_errors=None
+            )
 
         if not isinstance(text, str) or not text:
             return CreateUserStatusMutation(
                 req_status=400,
+                user_status=None,
                 form_errors=json.dumps(
                     {'status': ['Please enter text for the status.'] }
                 )
             )
 
         obj = UserStatus.objects.create(
-            user=info.context['user'],
+            user=info.context.user,
             text=text,
         )
 
