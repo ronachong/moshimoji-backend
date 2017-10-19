@@ -45,11 +45,6 @@ def test_all_user_statuses():
         }
     }''')
 
-    # debug prints
-    print (schema.__class__.__name__)
-    print (isinstance(schema, Schema))
-    print(executed)
-
     assert len(executed['data']['allUserStatuses']['edges']) == 3, (
         'Should return count of all messages in DB')
 
@@ -139,7 +134,6 @@ class TestCreateUserStatusMutationClass(object):
             }''',
             context_value={'user': user},
         )
-        print(executed)
 
         assert executed['data']['createUserStatus']['userStatus']['text'] == "Test", (
             'Should be status text submitted in mutation')
