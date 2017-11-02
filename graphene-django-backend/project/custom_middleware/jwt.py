@@ -39,4 +39,4 @@ class JWTMiddleware(MiddlewareMixin):
             % (err, token))
             return
         request.user = auth[0]
-        logger.error("MIDDLEWARE: Request.user is %s" % (request.user))
+        logger.info("MIDDLEWARE: Request.user is %s" % (request.user))
