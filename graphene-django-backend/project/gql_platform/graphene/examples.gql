@@ -1,0 +1,196 @@
+
+fragment NodeDetails on Node {
+  __typename
+  id
+}
+fragment UserStatusForList on UserStatusNode {
+	... NodeDetails
+  creationDate
+  text
+}
+
+query UserStatuses($field: [String]) {
+  allUserStatuses(first: 5, orderBy: $field)  {
+    edges {
+      node {
+        ... UserStatusForList
+      }
+      cursor
+    }
+    pageInfo {
+      startCursor
+      hasPreviousPage
+    }
+  }
+}
+
+# query {
+#   allUserStatuses {
+#     edges {
+#       node {
+#         id,
+#         creationDate,
+#         text
+#       }
+#       cursor
+#     }
+#   }
+# }
+
+# query UserStatuses($field: [String]) {
+#   allUserStatuses(first: 5, orderBy: $field)  {
+#     edges {
+#       node {
+#         id,
+#         creationDate,
+#         text,
+#       }
+#       cursor
+#     }
+#     pageInfo {
+#       startCursor
+#       hasPreviousPage
+#     }
+#   }
+# }
+
+# query UserStatuses($cursor: String, $field: String) {
+#   allUserStatuses(last: 5, before: $cursor, orderBy: $field)  {
+#     edges {
+#       node {
+#         id,
+#         creationDate,
+#         text,
+#       }
+#       cursor
+#     }
+#     pageInfo {
+#       startCursor
+#       hasPreviousPage
+#     }
+#   }
+# }
+
+# query {
+#    currentUser {
+#     id
+#   }
+# }
+
+# -----------------------
+
+# mutation {
+#   createUserStatus(text: "Test") {
+#     userStatus {
+#       id,
+#       text
+#     }
+#     formErrors,
+#     reqStatus
+#   }
+# }
+
+# query {
+#   allUserStatuses {
+#     edges {
+#       node {
+#         id,
+#         creationDate,
+#         text
+#       }
+#     }
+#   }
+# }
+
+# query {
+	# __schema {
+	# types {
+	# name
+	# fields {
+	# name
+	# }
+	# description
+	# }
+	# }
+
+  # __type(name: "UserStatusNode") {
+  #   name
+  #   fields {
+  #     name
+  #     description
+  #     deprecationReason
+  #   }
+  # }
+
+#     __type(name: "UserNode") {
+#     name
+#     fields {
+#       name
+#       type {
+#         name
+#         fields {
+# 					name
+#         }
+#         description
+#       }
+#       description
+#       deprecationReason
+#     }
+#   }
+
+# }
+
+# query {
+#   __type(name: "UserStatusNodeConnection") {
+# 		fields {
+#       name
+#     }
+#     inputFields {
+#       name
+#     }
+#   }
+# }
+
+# query {
+#   allUserStatuses(text: "this is a test") {
+#     edges {
+#       node {
+#         id,
+#         creationDate,
+#         text
+#       }
+#     }
+#   }
+# }
+
+# query {
+# 	allUsers {
+#     edges {
+#       node {
+#         id,
+#         userstatusSet {
+#           edges {
+#             node {
+#               text
+#             }
+#           }
+#         }
+#       }
+
+#     }
+#   }
+# }
+
+# query {
+# 	user(id: "VXNlck5vZGU6MQ==") {
+#         id,
+#         userstatusSet {
+#           edges {
+#             node {
+#               text
+#             }
+#           }
+#         }
+#       }
+
+#     }
