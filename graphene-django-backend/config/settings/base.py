@@ -167,17 +167,46 @@ USE_TZ = True
 
 STATIC_URL = '/static/' # path @ which to serve static files
 
-STATIC_ROOT = str(ROOT_DIR('staticfiles')) # collection dest for static files
 
-STATICFILES_DIRS = ( # dirs for Django to collect static files from
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+# https://docs.djangoproject.com/en/1.11/ref/settings/#static-root
+
+# NOTE: in misago STATIC_ROOT is {ROOT_DIR}/static:
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# TODO: determine if I need to worry about this discrepancy (e.g. with nginx settings) or if
+# Django will take care of everything relative to my setting.
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+
+
+# Dirs for Django to collect static files from
+# This setting defines the additional locations the staticfiles app will traverse if the FileSystemFinder finder
+# is enabled, e.g. if you use the collectstatic or findstatic management command or use the static file serving view.
+# https://docs.djangoproject.com/en/1.10/ref/settings/#staticfiles-dirs
+
+STATICFILES_DIRS = (
     str(APPS_DIR.path('static')),
+    str(APPS_DIR.path('theme/static')),
 )
 
-STATICFILES_FINDERS = ( # specs for what files to lookfor
+
+# This setting defines the additional locations the staticfiles app will traverse if the FileSystemFinder finder
+# is enabled, e.g. if you use the collectstatic or findstatic management command or use the static file serving view.
+# https://docs.djangoproject.com/en/1.10/ref/settings/#staticfiles-dirs
+
+STATICFILES_FINDERS = ( # specs for what files to look for
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
+
+# User uploads (Avatars, Attachments, files uploaded in other Django apps, ect.)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+
 MEDIA_URL = '/media/' # path @ which to serve media databases
 
-MEDIA_ROOT = str(APPS_DIR('media')) # collection dest for media files
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# i.e. collection dest for media files
+# https://docs.djangoproject.com/en/1.11/ref/settings/#media-root
+
+MEDIA_ROOT = str(APPS_DIR('media'))
