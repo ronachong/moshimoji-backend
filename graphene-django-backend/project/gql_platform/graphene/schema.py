@@ -69,7 +69,7 @@ class Query(graphene.ObjectType):
     # test_arg = graphene.String(description="test", required=False).Argument()
     # test_arg = graphene.String()
     # all_user_statuses = DjangoFilterConnectionField(UserStatusNode, test_arg)
-    all_user_statuses = DjangoFilterConnectionField(UserStatusNode, test_arg=graphene.String())
+    all_user_statuses = DjangoFilterConnectionField(UserStatusNode, order_by_arg=graphene.String())
     all_genres = DjangoFilterConnectionField(GenreNode)
     all_authors = DjangoFilterConnectionField(AuthorNode)
     all_manga_series = DjangoFilterConnectionField(MangaSeriesNode)
@@ -81,12 +81,11 @@ class Query(graphene.ObjectType):
             return None
         return info.context.user
 
-    def resolve_all_user_statuses(self, info, test_arg, **args):
+    def resolve_all_user_statuses(self, info, **args):
         logger.info("MM: resolve_all_user_statuses running")
         logger.info("MM: len of resolve_all_user_statuses return: %i" %
         len(UserStatus.objects.order_by("-creation_date")))
-        logger.info("MM: test_arg: %s" % test_arg)
-        return UserStatus.objects.order_by(test_arg)
+        return UserStatus.objects.order_by("-creation_date")
 
     # def resolve_user_statuses(self, info):
     #     return graphene.relay.ConnectionField.resolve_connection(
