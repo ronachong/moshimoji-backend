@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter.fields import DjangoFilterConnectionField
 
+from config.logger_import import logger
 from project.gql_platform.models import UserStatus, Genre, Author, MangaSeries
 
 
@@ -15,11 +16,11 @@ from project.gql_platform.models import UserStatus, Genre, Author, MangaSeries
 
 ''' Object type definitions for GraphQL server '''
 # TODO: determine if I want everything to be a node, or just certain object types
-
 class UserStatusNode(DjangoObjectType):
     class Meta:
         model = UserStatus
         filter_fields = ['user', 'text', 'creation_date']
+        # filter_order_by = ('creation_date')
         interfaces = (graphene.relay.Node, )
 
 class UserStatusConnection(graphene.relay.Connection):
@@ -63,7 +64,12 @@ class Query(graphene.ObjectType):
     manga_series = graphene.relay.Node.Field(MangaSeriesNode)
 
     all_users = DjangoFilterConnectionField(UserNode)
-    all_user_statuses = DjangoFilterConnectionField(UserStatusNode)
+    #all_user_statuses = DjangoFilterConnectionField(UserStatusNode)
+    # test_arg = graphene.String().Argument(name='test_arg')
+    # test_arg = graphene.String(description="test", required=False).Argument()
+    # test_arg = graphene.String()
+    # all_user_statuses = DjangoFilterConnectionField(UserStatusNode, test_arg)
+    all_user_statuses = DjangoFilterConnectionField(UserStatusNode, order_by_arg=graphene.String())
     all_genres = DjangoFilterConnectionField(GenreNode)
     all_authors = DjangoFilterConnectionField(AuthorNode)
     all_manga_series = DjangoFilterConnectionField(MangaSeriesNode)
@@ -74,6 +80,12 @@ class Query(graphene.ObjectType):
         if not info.context.user.is_authenticated():
             return None
         return info.context.user
+
+    def resolve_all_user_statuses(self, info, **args):
+        logger.info("MM: resolve_all_user_statuses running")
+        logger.info("MM: len of resolve_all_user_statuses return: %i" %
+        len(UserStatus.objects.order_by("-creation_date")))
+        return UserStatus.objects.order_by("-creation_date")
 
     # def resolve_user_statuses(self, info):
     #     return graphene.relay.ConnectionField.resolve_connection(
