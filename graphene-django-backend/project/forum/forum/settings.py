@@ -26,17 +26,6 @@ _ = lambda x: x
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^1=g%^x#38supc3eb6l-!u7=!2zyjfha%d%obl(bdb+76f5_7*'
-
-# # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-
-
-# A list of strings representing the host/domain names that this Django site can serve.
-# If you are unsure, just enter here your domain name, eg. ['mysite.com', 'www.mysite.com']
-
-ALLOWED_HOSTS = []
 
 
 # Database
