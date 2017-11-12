@@ -29,8 +29,8 @@ _ = lambda x: x
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '^1=g%^x#38supc3eb6l-!u7=!2zyjfha%d%obl(bdb+76f5_7*'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 
 
 # A list of strings representing the host/domain names that this Django site can serve.
@@ -89,20 +89,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
