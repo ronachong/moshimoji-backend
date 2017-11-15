@@ -43,6 +43,14 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 
 
 # Application definition
+AUTH_USER_MODEL = 'misago_users.User'
+
+AUTHENTICATION_BACKENDS = [
+    'misago.users.authbackends.MisagoBackend',
+]
+
+CSRF_FAILURE_VIEW = 'misago.core.errorpages.csrf_failure'
+
 MISAGO_CORE = (
     # Misago overrides for Django core feature
     'misago',
