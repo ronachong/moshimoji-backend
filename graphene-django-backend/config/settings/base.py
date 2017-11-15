@@ -123,8 +123,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(ROOT_DIR.path('db.sqlite3')),
+        # Misago requires PostgreSQL to run
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'moshimoji',
+        'USER': 'mmuser',
+        'PASSWORD': '@we7Qsd6mm',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
