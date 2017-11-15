@@ -43,10 +43,18 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 
 
 # Application definition
+MISAGO_CORE = (
+    # Misago overrides for Django core feature
+    'misago',
+    'misago.users',
+)
+
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.postgres',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -55,15 +63,32 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'graphene_django',
     'django_filters',
-    'rest_framework',
+    'rest_framework',   # used by misago (and my graphql stuff)
     'corsheaders',
+    'debug_toolbar',    # used by misago
+    'crispy_forms',     # used by misago
+    'mptt',             # used by misago
+)
+
+MISAGO_APPS = (
+    'misago.admin',
+    'misago.acl',
+    'misago.core',
+    'misago.conf',
+    'misago.markup',
+    'misago.legal',
+    'misago.categories',
+    'misago.threads',
+    'misago.readtracker',
+    'misago.search',
+    'misago.faker',
 )
 
 LOCAL_APPS = (
     'project.gql_platform',
 )
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = MISAGO_CORE + DJANGO_APPS + THIRD_PARTY_APPS + MISAGO_APPS + LOCAL_APPS
 
 # Third party app settings
 REST_FRAMEWORK = {
