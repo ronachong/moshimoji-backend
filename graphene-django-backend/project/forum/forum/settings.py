@@ -28,22 +28,6 @@ _ = lambda x: x
 
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        # Misago requires PostgreSQL to run
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
-}
-
-
 # Caching
 # https://docs.djangoproject.com/en/1.11/topics/cache/#setting-up-the-cache
 
