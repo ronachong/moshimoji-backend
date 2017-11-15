@@ -185,6 +185,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
+
 # Django Debug Toolbar
 # http://django-debug-toolbar.readthedocs.io/en/stable/configuration.html
 
@@ -205,8 +206,13 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.logging.LoggingPanel',
 ]
 
+
+# Django Rest Framework
+# http://www.django-rest-framework.org/api-guide/settings/
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
+        'misago.core.rest_permissions.IsAuthenticatedOrReadOnly',
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -214,6 +220,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'EXCEPTION_HANDLER': 'misago.core.exceptionhandler.handle_api_exception',
+    'UNAUTHENTICATED_USER': 'misago.users.models.AnonymousUser',
+    'URL_FORMAT_OVERRIDE': None,
 }
 
 CORS_ORIGIN_ALLOW_ALL = True # TODO: check if this needs to be changed for prod

@@ -59,22 +59,6 @@ DEFAULT_FROM_EMAIL = 'Forums <%s>' % EMAIL_HOST_USER
 
 # Application definition
 
-# Django Rest Framework
-# http://www.django-rest-framework.org/api-guide/settings/
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'misago.core.rest_permissions.IsAuthenticatedOrReadOnly',
-    ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-    'EXCEPTION_HANDLER': 'misago.core.exceptionhandler.handle_api_exception',
-    'UNAUTHENTICATED_USER': 'misago.users.models.AnonymousUser',
-    'URL_FORMAT_OVERRIDE': None,
-}
-
-
 # Misago specific settings
 # https://misago.readthedocs.io/en/latest/developers/settings.html
 
