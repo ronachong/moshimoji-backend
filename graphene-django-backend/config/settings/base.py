@@ -235,6 +235,54 @@ JWT_AUTH = {
 }
 
 
+# Misago specific settings
+# https://misago.readthedocs.io/en/latest/developers/settings.html
+
+# PostgreSQL text search configuration to use in searches
+# Defaults to "simple", for list of installed configurations run "\dF" in "psql"
+# Standard configs as of PostgreSQL 9.5 are: dutch, english, finnish, french,
+# german, hungarian, italian, norwegian, portuguese, romanian, russian, simple,
+# spanish, swedish and turkish
+# Example on adding custom language can be found here: https://github.com/lemonskyjwt/plpstgrssearch
+
+MISAGO_SEARCH_CONFIG = 'simple'
+
+
+# Path to directory containing avatar galleries
+# Those galleries can be loaded by running loadavatargallery command
+
+MISAGO_AVATAR_GALLERY = os.path.join(BASE_DIR, 'avatargallery')
+
+
+# Profile fields
+
+MISAGO_PROFILE_FIELDS = [
+    {
+        'name': _("Personal"),
+        'fields': [
+            'misago.users.profilefields.default.FullNameField',
+            'misago.users.profilefields.default.GenderField',
+            'misago.users.profilefields.default.BioField',
+            'misago.users.profilefields.default.LocationField',
+        ],
+    },
+    {
+        'name': _("Contact"),
+        'fields': [
+            'misago.users.profilefields.default.TwitterHandleField',
+            'misago.users.profilefields.default.SkypeIdField',
+            'misago.users.profilefields.default.WebsiteField',
+        ],
+    },
+    {
+        'name': _("IP address"),
+        'fields': [
+            'misago.users.profilefields.default.JoinIpField',
+            'misago.users.profilefields.default.LastIpField',
+        ],
+    },
+]
+
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
