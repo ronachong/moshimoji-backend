@@ -17,11 +17,19 @@ import logging
 ROOT_DIR = environ.Path(__file__) - 3 # computes to graphene-django-backend/
 APPS_DIR = ROOT_DIR.path('project')
 
+
+# Define placeholder gettext function
+# This function will mark strings in settings visible to makemessages
+# without need for Django's i18n features be initialized first.
+_ = lambda x: x
+
+
 # Import environment vars in .env
 # following: https://medium.com/@djstein/modern-django-part-1-project-refactor-and-meeting-the-django-settings-api-d2784efb606f
 env = environ.Env() # will search for .env in projectroot
 
 logger = logging.getLogger('django')
+
 
 # This section added from an update to standards in CookieCutter Django to
 # ensure no errors are encountered at runserver/migrations
