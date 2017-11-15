@@ -59,9 +59,6 @@ DEFAULT_FROM_EMAIL = 'Forums <%s>' % EMAIL_HOST_USER
 
 # Application definition
 
-WSGI_APPLICATION = 'forum.wsgi.application'
-
-
 # Django Crispy Forms
 #http://django-crispy-forms.readthedocs.io/en/latest/install.html
 
