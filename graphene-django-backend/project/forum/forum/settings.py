@@ -59,15 +59,6 @@ DEFAULT_FROM_EMAIL = 'Forums <%s>' % EMAIL_HOST_USER
 
 # Application definition
 
-AUTH_USER_MODEL = 'misago_users.User'
-
-AUTHENTICATION_BACKENDS = [
-    'misago.users.authbackends.MisagoBackend',
-]
-
-CSRF_FAILURE_VIEW = 'misago.core.errorpages.csrf_failure'
-
-
 INTERNAL_IPS = [
     '127.0.0.1'
 ]
