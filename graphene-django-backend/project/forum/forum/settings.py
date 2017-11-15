@@ -59,33 +59,6 @@ DEFAULT_FROM_EMAIL = 'Forums <%s>' % EMAIL_HOST_USER
 
 # Application definition
 
-# Django Crispy Forms
-#http://django-crispy-forms.readthedocs.io/en/latest/install.html
-
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
-
-# Django Debug Toolbar
-# http://django-debug-toolbar.readthedocs.io/en/stable/configuration.html
-
-DEBUG_TOOLBAR_PANELS = [
-    'debug_toolbar.panels.versions.VersionsPanel',
-    'debug_toolbar.panels.timer.TimerPanel',
-    'debug_toolbar.panels.settings.SettingsPanel',
-    'debug_toolbar.panels.headers.HeadersPanel',
-    'debug_toolbar.panels.request.RequestPanel',
-    'debug_toolbar.panels.sql.SQLPanel',
-
-    'misago.acl.panels.MisagoACLPanel',
-
-    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-    'debug_toolbar.panels.templates.TemplatesPanel',
-    'debug_toolbar.panels.cache.CachePanel',
-    'debug_toolbar.panels.signals.SignalsPanel',
-    'debug_toolbar.panels.logging.LoggingPanel',
-]
-
-
 # Django Rest Framework
 # http://www.django-rest-framework.org/api-guide/settings/
 
