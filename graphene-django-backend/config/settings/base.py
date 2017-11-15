@@ -258,8 +258,8 @@ MISAGO_SEARCH_CONFIG = 'simple'
 
 # Path to directory containing avatar galleries
 # Those galleries can be loaded by running loadavatargallery command
-
-MISAGO_AVATAR_GALLERY = os.path.join(BASE_DIR, 'avatargallery')
+# Originally set to os.path.join(BASE_DIR, 'avatargallery') in original config.
+MISAGO_AVATAR_GALLERY = str(APPS_DIR.path('forum/avatargallery'))
 
 
 # Profile fields
