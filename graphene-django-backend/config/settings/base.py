@@ -158,14 +158,39 @@ ROOT_URLCONF = 'config.urls' # ROOT_URLCONF = 'forum.urls' in original misago co
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # os.path.join(BASE_DIR, 'theme', 'templates'), in original misago conf
+            str(APPS_DIR.path('theme/templates')),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
                 'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'misago.core.context_processors.site_address',
+                'misago.core.context_processors.momentjs_locale',
+                'misago.conf.context_processors.settings',
+                'misago.search.context_processors.search_providers',
+                'misago.users.context_processors.user_links',
+                'misago.legal.context_processors.legal_links',
+
+                # Data preloaders
+                'misago.conf.context_processors.preload_settings_json',
+                'misago.core.context_processors.current_link',
+                'misago.markup.context_processors.preload_api_url',
+                'misago.threads.context_processors.preload_threads_urls',
+                'misago.users.context_processors.preload_user_json',
+
+                # Note: keep frontend_context processor last for previous processors
+                # to be able to expose data UI app via request.frontend_context
+                'misago.core.context_processors.frontend_context',
             ],
         },
     },
