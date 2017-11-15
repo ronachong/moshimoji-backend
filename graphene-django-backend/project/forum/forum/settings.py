@@ -59,16 +59,6 @@ DEFAULT_FROM_EMAIL = 'Forums <%s>' % EMAIL_HOST_USER
 
 # Application definition
 
-INTERNAL_IPS = [
-    '127.0.0.1'
-]
-
-LOGIN_REDIRECT_URL = 'misago:index'
-
-LOGIN_URL = 'misago:login'
-
-LOGOUT_URL = 'misago:logout'
-
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 

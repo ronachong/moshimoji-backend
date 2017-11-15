@@ -98,7 +98,18 @@ LOCAL_APPS = (
 
 INSTALLED_APPS = MISAGO_CORE + DJANGO_APPS + THIRD_PARTY_APPS + MISAGO_APPS + LOCAL_APPS
 
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
+
+LOGIN_REDIRECT_URL = 'misago:index'
+
+LOGIN_URL = 'misago:login'
+
+LOGOUT_URL = 'misago:logout'
+
 # Third party app settings
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -118,6 +129,11 @@ JWT_AUTH = {
 
 
 MIDDLEWARE_CLASSES = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    'misago.users.middleware.RealIPMiddleware',
+    'misago.core.middleware.frontendcontext.FrontendContextMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'project.custom_middleware.jwt.JWTMiddleware',
@@ -128,6 +144,13 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'misago.users.middleware.UserMiddleware',
+    'misago.core.middleware.exceptionhandler.ExceptionHandlerMiddleware',
+    'misago.users.middleware.OnlineTrackerMiddleware',
+    'misago.admin.middleware.AdminAuthMiddleware',
+    'misago.threads.middleware.UnreadThreadsCountMiddleware',
+    'misago.core.middleware.threadstore.ThreadStoreMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
