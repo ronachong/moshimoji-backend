@@ -153,7 +153,7 @@ MIDDLEWARE_CLASSES = [
     'misago.core.middleware.threadstore.ThreadStoreMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'config.urls' # ROOT_URLCONF = 'forum.urls' in original misago conf
 
 TEMPLATES = [
     {

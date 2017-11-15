@@ -59,30 +59,6 @@ DEFAULT_FROM_EMAIL = 'Forums <%s>' % EMAIL_HOST_USER
 
 # Application definition
 
-MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-
-    'misago.users.middleware.RealIPMiddleware',
-    'misago.core.middleware.frontendcontext.FrontendContextMiddleware',
-
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'misago.users.middleware.UserMiddleware',
-    'misago.core.middleware.exceptionhandler.ExceptionHandlerMiddleware',
-    'misago.users.middleware.OnlineTrackerMiddleware',
-    'misago.admin.middleware.AdminAuthMiddleware',
-    'misago.threads.middleware.UnreadThreadsCountMiddleware',
-    'misago.core.middleware.threadstore.ThreadStoreMiddleware',
-]
-
-ROOT_URLCONF = 'forum.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
