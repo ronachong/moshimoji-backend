@@ -239,9 +239,9 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True # TODO: check if this needs to be changed for prod
 
-# X_FRAME_OPTIONS: 'ALLOW'
-
-CSP_FRAME_ANCESTORS = ('*',) # TODO: figure out how to whitelist a specific host
+CSP_DEFAULT_SRC = ["'self'", "'unsafe-inline'", "ajax.googleapis.com"]
+CSP_STYLE_SRC = ["'self'", "'unsafe-inline'"]
+CSP_FRAME_ANCESTORS = ['*', 'http://127.0.0.1:8000/forum'] # TODO: figure out how to whitelist a specific host
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False # TODO: change this to expire in future
