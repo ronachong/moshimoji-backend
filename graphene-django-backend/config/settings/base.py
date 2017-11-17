@@ -132,6 +132,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 
     'misago.users.middleware.UserMiddleware',
     'misago.core.middleware.exceptionhandler.ExceptionHandlerMiddleware',
@@ -237,6 +238,10 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True # TODO: check if this needs to be changed for prod
+
+# X_FRAME_OPTIONS: 'ALLOW'
+
+CSP_FRAME_ANCESTORS = ('*',) # TODO: figure out how to whitelist a specific host
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False # TODO: change this to expire in future
