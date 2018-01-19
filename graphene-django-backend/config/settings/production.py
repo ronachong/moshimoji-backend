@@ -9,4 +9,28 @@ SECRET_KEY = env(
 
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stage.moshi-moji.xyz']
+
+# TODO: maybe change this when necessary so it only happens for stage
+# based on https://docs.djangoproject.com/en/1.11/topics/logging/#configuring-logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s M%(module)s P%(process)d T%(thread)d \n%(message)s\n'
+        }
+    },
+    'handlers': {
+        'console' : {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
+    }
+}
