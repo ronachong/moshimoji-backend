@@ -1,18 +1,28 @@
 from .base import *
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env(
-    'DJANGO_SECRET_KEY',
-    default='ddhue(=qe14tlx(#dk2&x6r#ky4pk4f6tx9mvnhfdx_*7v)r6'
-)
+print("in stage config")
 
+def read_secret(secret_name):
+    with open('/run/secrets/{}'.format(secret_name), 'r') as secret:
+        return secret.read()
+
+SECRETS = [
+    'DJANGO',
+    'DB_USERNAME',
+    'DB_PASSWORD',
+    'DB_NAME',
+]
+
+SECRETS = {secret: read_secret(secret) for secret in SECRETS}
+
+# TODO: change this to actual prod key later
+# SECURITY WARNING: keep the secret key used in production secret!
+
+SECRET_KEY = SECRETS['DJANGO']
 
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
-
-# A list of strings representing the host/domain names that this Django site can serve.
-# If you are unsure, just enter here your domain name, eg. ['mysite.com', 'www.mysite.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stage.moshi-moji.xyz', 'this is given in stage']
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -21,14 +31,17 @@ DATABASES = {
     'default': {
         # Misago requires PostgreSQL to run
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'moshimoji',
-        'USER': 'mmuser',
-        'PASSWORD': '@we7Qsd6mm',
-        'HOST': 'localhost',
+        'NAME': SECRETS['DB_NAME'],
+        'USER': SECRETS['DB_USERNAME'],
+        'PASSWORD': SECRETS['DB_PASSWORD'],
+        'HOST': 'database',
         'PORT': 5432,
     }
 }
 
+print("=================DATABASES var:", DATABASES)
+
+# TODO: maybe change this when necessary so it only happens for stage
 # based on https://docs.djangoproject.com/en/1.11/topics/logging/#configuring-logging
 LOGGING = {
     'version': 1,

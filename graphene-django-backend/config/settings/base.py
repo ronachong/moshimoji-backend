@@ -296,23 +296,6 @@ MISAGO_PROFILE_FIELDS = [
     },
 ]
 
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        # Misago requires PostgreSQL to run
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'moshimoji',
-        'USER': 'mmuser',
-        'PASSWORD': '@we7Qsd6mm',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
