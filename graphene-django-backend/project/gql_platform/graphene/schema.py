@@ -4,7 +4,6 @@ import json
 
 from django.contrib.auth.models import User
 from misago.users.models.user import User as MisagoUser
-from config.settings import base as settings
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter.fields import DjangoFilterConnectionField
 
