@@ -11,7 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-config_module = "stage" if os.environ['STAGE'] else "production"
+config_module = "stage" if int(os.environ['STAGE']) else "production"
 
 os.environ.setdefault(
     "DJANGO_SETTINGS_MODULE",
