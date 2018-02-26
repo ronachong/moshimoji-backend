@@ -4,6 +4,7 @@ from django.test import RequestFactory
 from graphene.test import Client
 from graphene import Schema
 from graphql.execution.base import ResolveInfo
+from misago.users.models.user import User as MisagoUser
 from mixer.backend.django import mixer
 
 from ..graphene.schema import schema
@@ -68,7 +69,7 @@ class TestCreateUserStatusMutationClass(object):
 
     @pytest.fixture
     def user(self):
-        return mixer.blend('auth.User')
+        return mixer.blend(MisagoUser) # TODO: update this
 
     @pytest.fixture
     def anon(self):

@@ -3,6 +3,8 @@ import graphene
 import json
 
 from django.contrib.auth.models import User
+from misago.users.models.user import User as MisagoUser
+from config.settings import base as settings
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter.fields import DjangoFilterConnectionField
 
@@ -29,7 +31,7 @@ class UserStatusConnection(graphene.relay.Connection):
 
 class UserNode(DjangoObjectType):
     class Meta:
-        model = User
+        model = MisagoUser
         filter_fields = ['id']
         interfaces = (graphene.relay.Node, )
 
