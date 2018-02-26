@@ -1,4 +1,4 @@
-django==1.10.5
+django==1.11.6
 graphene_django>=2.0.dev
 django-environ==0.4.1
 django-filter==1.0

@@ -1,0 +1,22 @@
+# This Dockerfile takes cues from:
+# https://github.com/dockerfiles/django-uwsgi-nginx
+# http://pythonwise.blogspot.com/2015/04/docker-miniconda-perfect-match.html
+# https://github.com/rothnic/docker-tinyconda
+
+FROM conda/miniconda3
+
+MAINTAINER Rona Chong <ronachong@gmail.com>
+
+# Create and enter conda env for prod from specs
+# This env includes python, pip, uwsgi
+# EXEC form of run is used with bash source activate to avoid nested shells
+# see: https://stackoverflow.com/questions/20635472/using-the-run-instruction-in-a-dockerfile-with-source-does-not-work
+COPY uwsgi-gdbe-cenv.yml /home/docker/uwsgi-gdbe-cenv.yml
+RUN conda-env create -f /home/docker/uwsgi-gdbe-cenv.yml
+RUN ["/bin/bash", "-c", "source activate uwsgi-gdbe-cenv"]
+
+# add (the rest of) our code
+COPY . /home/docker/code/
+
+EXPOSE 8001
+CMD ["/usr/local/envs/uwsgi-gdbe-cenv/bin/uwsgi", "--ini", "/home/docker/code/uwsgi.ini"]
