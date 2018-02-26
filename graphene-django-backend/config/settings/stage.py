@@ -22,7 +22,7 @@ SECRET_KEY = SECRETS['DJANGO']
 
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
-ALLOWED_HOSTS = ['stage.moshi-moji.xyz', 'this is given in stage']
+ALLOWED_HOSTS = ['stage.moshi-moji.xyz']
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -38,8 +38,6 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-
-print("=================DATABASES var:", DATABASES)
 
 # TODO: maybe change this when necessary so it only happens for stage
 # based on https://docs.djangoproject.com/en/1.11/topics/logging/#configuring-logging
