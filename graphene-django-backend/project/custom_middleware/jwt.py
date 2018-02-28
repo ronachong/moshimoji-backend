@@ -1,8 +1,8 @@
-import logging
-
 from django.utils.deprecation import MiddlewareMixin
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from misago.users.models.user import AnonymousUser
+
+from project import logger
 
 # class JWTMiddleware(object):
 #     def process_view(self, req, view_func, view_args, view_kwargs):
@@ -17,8 +17,6 @@ from misago.users.models.user import AnonymousUser
 #             # TODO: this seems dangerous; double-check that this is acceptable
 #             return
 #         req.user = auth[0]
-
-logger = logging.getLogger('django')
 
 class JWTMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):

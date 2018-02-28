@@ -3,7 +3,7 @@ from graphene_django.types import DjangoObjectType
 
 from misago.users.models.user import User as MisagoUser
 
-from config.logger_import import logger
+from project import logger
 
 ''' Object type definitions for GraphQL server '''
 

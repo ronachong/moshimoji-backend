@@ -2,7 +2,7 @@ import graphene
 
 from graphene_django.types import DjangoObjectType
 
-from config.logger_import import logger
+from project import logger
 from project.gql_platform.graphene import social_content, user_sessions
 
 
