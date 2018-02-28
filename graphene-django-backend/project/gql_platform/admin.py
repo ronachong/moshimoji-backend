@@ -1,9 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
-from .models import UserStatus, MangaSeries, Genre, Author
+# Register models here.
+from project.gql_platform.models.content.social import UserStatus
 
 admin.site.register(UserStatus)
-admin.site.register(MangaSeries)
-admin.site.register(Genre)
-admin.site.register(Author)
