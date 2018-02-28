@@ -1,7 +1,7 @@
 import graphene
 
-from project.gql_platform.models import UserStatus
-from project.gql_platform.graphene.user_sessions.objects import UserStatusNode
+from project.gql_platform.models.content.social import UserStatus
+from project.gql_platform.graphene.social_content.objects import UserStatusNode
 
 ''' Mutation field definitions for GraphQL server '''
 class CreateUserStatusMutation(graphene.Mutation):
