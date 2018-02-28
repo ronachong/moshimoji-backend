@@ -2,7 +2,7 @@ import graphene
 
 from graphene_django.filter.fields import DjangoFilterConnectionField
 
-from config.logger_import import logger
+from project import logger
 from project.gql_platform.graphene.social_content.objects import UserStatusNode
 from project.gql_platform.models.content.social import UserStatus
 

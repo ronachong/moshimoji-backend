@@ -1,8 +1,5 @@
 from django.db import models
 from misago.users.models.user import User as MisagoUser
-import logging
-
-logger = logging.getLogger('django')
 
 # Create your models here.
 class UserStatus(models.Model):
