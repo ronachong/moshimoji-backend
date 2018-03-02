@@ -4,12 +4,14 @@ from graphene_django.types import DjangoObjectType
 
 from project import logger
 from project.gql_platform.graphene_schema import social_content, user_sessions
+from project.gql_platform.graphene_schema.serialized_content import comic
 
 
 ''' Query type definition for GraphQL server '''
 class Query(
     user_sessions.Query,
     social_content.Query,
+    comic.Query,
     graphene.ObjectType):
     pass
 
