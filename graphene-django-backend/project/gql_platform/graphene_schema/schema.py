@@ -3,7 +3,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 
 from project import logger
-from project.gql_platform.graphene import social_content, user_sessions
+from project.gql_platform.graphene_schema import social_content, user_sessions
 
 
 ''' Query type definition for GraphQL server '''

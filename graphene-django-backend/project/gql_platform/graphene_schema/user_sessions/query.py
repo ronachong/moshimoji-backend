@@ -3,7 +3,7 @@ import graphene
 from graphene_django.filter.fields import DjangoFilterConnectionField
 
 from project import logger
-from project.gql_platform.graphene.user_sessions.objects import UserNode
+from project.gql_platform.graphene_schema.user_sessions.objects import UserNode
 
 
 ''' Query type definition for GraphQL server '''
