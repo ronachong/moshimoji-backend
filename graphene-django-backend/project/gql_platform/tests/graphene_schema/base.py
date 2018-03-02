@@ -52,14 +52,14 @@ class ConnectionFilterFieldTestSuite(object):
     def count_nodes(self):
         res = self.graphene_client().execute(
             '''{
-                allUserStatuses {
+                %s {
                     edges {
                         node {
                             id
                         }
                     }
                 }
-            }'''
+            }''' % (self.field())
         )
         return len(res['data'][self.field()]['edges'])
 
