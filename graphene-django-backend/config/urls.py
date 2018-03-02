@@ -22,7 +22,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 
-from project.gql_platform.graphene.schema import schema
+from project.gql_platform.graphene_schema.schema import schema
 
 urlpatterns = [
     url(r'^backend/admin/', admin.site.urls),
