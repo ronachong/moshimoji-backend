@@ -1,27 +1,16 @@
 from .base import *
 
-print("in prod config!")
+from config.settings.helpers import Secrets
 
-# TODO: NOT DRY - this is also in stage, pull out sometime.
-def read_secret(secret_name):
-    with open('/run/secrets/{}'.format(secret_name), 'r') as secret:
-        return secret.read()
+print("in prod config")
 
-SECRETS = [
-    'DJANGO',
-    'DB_USERNAME',
-    'DB_PASSWORD',
-    'DB_NAME',
-]
-
-SECRETS = {secret: read_secret(secret) for secret in SECRETS}
+# TODO: maybe get this dir from an env var to make more secure
+SECRETS_DIR = '/run/secrets/'
+SECRETS = Secrets(SECRETS_DIR).dict
 
 # TODO: change this to actual prod key later
 # SECURITY WARNING: keep the secret key used in production secret!
-
 SECRET_KEY = SECRETS['DJANGO']
-
-DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
 ALLOWED_HOSTS = ['www.moshi-moji.xyz']
 
@@ -35,10 +24,12 @@ DATABASES = {
         'NAME': SECRETS['DB_NAME'],
         'USER': SECRETS['DB_USERNAME'],
         'PASSWORD': SECRETS['DB_PASSWORD'],
-        'HOST': 'moshimoji-db.cios4gi54pfp.us-west-1.rds.amazonaws.com',
+        'HOST': SECRETS['DB_ENDPOINT'],
         'PORT': 5432,
     }
 }
+
+DEBUG = env.bool('DJANGO_DEBUG', default=True)
 
 # TODO: maybe change this when necessary so it only happens for stage
 # based on https://docs.djangoproject.com/en/1.11/topics/logging/#configuring-logging
