@@ -13,8 +13,11 @@ class Query(graphene.ObjectType):
     all_user_statuses = DjangoFilterConnectionField(UserStatusNode, order_by_arg=graphene.String())
 
     # field resolvers
-    # field resolvers for 'connection', Relay node fields skipped since it seems
-    # DjangoFilterConnectionField and relay replace functionality
+    # field resolvers for
+    #   - Relay connection fields (e.g. UserStatusConnection)
+    #   - Relay node fields (e.g. UserStatusNode)
+    # are skipped since it seems DjangoFilterConnectionField and relay implement
+    # these resolvers for us
 
     def resolve_all_user_statuses(self, info, **args):
         logger.info("MM: resolve_all_user_statuses running")

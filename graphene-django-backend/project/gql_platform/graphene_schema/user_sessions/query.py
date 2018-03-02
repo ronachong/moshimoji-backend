@@ -14,8 +14,11 @@ class Query(graphene.ObjectType):
     all_users = DjangoFilterConnectionField(UserNode)
 
     # field resolvers
-    # field resolvers for 'connection', Relay node fields skipped since it seems
-    # DjangoFilterConnectionField and relay replace functionality
+    # field resolvers for
+    #   - Relay connection fields (e.g. UserStatusConnection)
+    #   - Relay node fields (e.g. UserStatusNode)
+    # are skipped since it seems DjangoFilterConnectionField and relay implement
+    # these resolvers for us
 
     def resolve_current_user(self, info):
         if not info.context.user.is_authenticated():
