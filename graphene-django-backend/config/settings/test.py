@@ -1,15 +1,21 @@
 from .base import *
+from config.settings.helpers import Secrets
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env(
-    'DJANGO_SECRET_KEY',
-    default='ddhue(=qe14tlx(#dk2&x6r#ky4pk4f6tx9mvnhfdx_*7v)r6'
-)
+SECRETS_DIR = '/home/rona/projects/moshimoji/docker/secrets/dev'
+SECRETS = Secrets(SECRETS_DIR).dict
+SECRET_KEY = SECRETS['DJANGO']
 
+# if I understand correctly, test handlers will prefix db name with TEST to
+# avoid collision with actual db data
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        # Misago requires PostgreSQL to run
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': SECRETS['DB_NAME'],
+        'USER': SECRETS['DB_USERNAME'],
+        'PASSWORD': SECRETS['DB_PASSWORD'],
+        'HOST': SECRETS['DB_ENDPOINT'],
+        'PORT': 5432,
     }
 }
 

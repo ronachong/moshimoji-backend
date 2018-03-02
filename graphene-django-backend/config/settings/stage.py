@@ -1,23 +1,14 @@
 from .base import *
+from config.settings.helpers import Secrets
 
 print("in stage config")
 
-def read_secret(secret_name):
-    with open('/run/secrets/{}'.format(secret_name), 'r') as secret:
-        return secret.read()
-
-SECRETS = [
-    'DJANGO',
-    'DB_USERNAME',
-    'DB_PASSWORD',
-    'DB_NAME',
-]
-
-SECRETS = {secret: read_secret(secret) for secret in SECRETS}
+# TODO: maybe get this dir from an env var to make more secure
+SECRETS_DIR = '/run/secrets/'
+SECRETS = Secrets(SECRETS_DIR).dict
 
 # TODO: change this to actual prod key later
 # SECURITY WARNING: keep the secret key used in production secret!
-
 SECRET_KEY = SECRETS['DJANGO']
 
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
@@ -39,7 +30,6 @@ DATABASES = {
     }
 }
 
-# TODO: maybe change this when necessary so it only happens for stage
 # based on https://docs.djangoproject.com/en/1.11/topics/logging/#configuring-logging
 LOGGING = {
     'version': 1,
