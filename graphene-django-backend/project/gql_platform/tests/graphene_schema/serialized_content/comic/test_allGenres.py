@@ -13,3 +13,15 @@ class TestAllGenres(ConnectionFilterFieldTestSuite):
     @pytest.fixture
     def model(self):
         return Genre
+
+    @pytest.fixture
+    def sort_field(self):
+        return 'name'
+
+    @pytest.fixture
+    def sort_prototype(self):
+        return [
+            { "name": 'alpha' },
+            { "name": 'beta' },
+            { "name": 'gamma' },
+        ]
