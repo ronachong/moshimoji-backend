@@ -2,7 +2,13 @@ from django.contrib import admin
 
 # Register models here.
 from project.gql_platform.models.content.social import UserStatus
-from project.gql_platform.models.content.serialization.comic import Genre
+from project.gql_platform.models.content.serialization.comic import Genre, Serialization
 
-admin.site.register(UserStatus)
-admin.site.register(Genre)
+gql_models = [
+    UserStatus,
+    Genre,
+    Serialization
+]
+
+for model in gql_models:
+    admin.site.register(model)

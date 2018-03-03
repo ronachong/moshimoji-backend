@@ -35,6 +35,29 @@ def test_genre_model():
     assert inst.name == test_name
     assert str(inst) == test_name
 
+class TestComicSerializationModel(object):
+    def test_model(self):
+        '''Test successful creation of Serialization instance and storage in DB.'''
+        test_title = 'Ran to Hairo'
+        # test_author =
+        inst = mixer.blend(
+            comic.Serialization,
+            title=test_title,
+        )
+        assert inst.pk > 0
+        assert inst.title == test_title
+        # assert inst.author
+
+    def test_multi_genre_addition(self):
+        '''Test successful addition of genres to comic series.'''
+        test_genre1 = mixer.blend(comic.Genre)
+        test_genre2 = mixer.blend(comic.Genre)
+        inst = mixer.blend(comic.Serialization)
+        inst.genres.add(test_genre1)
+        inst.genres.add(test_genre2)
+        assert test_genre1 in inst.genres.all()
+        assert test_genre2 in inst.genres.all()
+
 # class TestOrderByFunctionality(object):
 #     @pytest.mark.django_db
 #     def test_with_all_user_statuses(self):
