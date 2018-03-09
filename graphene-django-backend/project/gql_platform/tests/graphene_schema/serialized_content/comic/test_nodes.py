@@ -7,3 +7,8 @@ class TestGenreNode(NodeTestSuite):
     @pytest.fixture
     def node_class(self):
         return(schema.GenreNode)
+
+class TestSerializationNode(NodeTestSuite):
+    @pytest.fixture
+    def node_class(self):
+        return(schema.GenreNode)
