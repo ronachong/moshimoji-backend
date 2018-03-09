@@ -26,7 +26,7 @@ from project.gql_platform.graphene_schema.schema import schema
 
 urlpatterns = [
     url(r'^backend/admin/', admin.site.urls),
-    url(r'^backend/graphiql', GraphQLView.as_view(graphiql=True, schema=schema)),
+    url(r'^backend/graphiql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
     # url(r'^gql', csrf_exempt(GraphQLView.as_view(batch=True,schema=schema))),\
     url(r'^backend/gql', csrf_exempt(GraphQLView.as_view(batch=False,schema=schema))),
     url(r'^backend/api-token-auth/', obtain_jwt_token),

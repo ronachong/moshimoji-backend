@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-
 import environ
 import logging
 
@@ -239,8 +238,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True # TODO: check if this needs to be changed for prod
 
-CSP_DEFAULT_SRC = ["'self'", "'unsafe-inline'", "ajax.googleapis.com"]
-CSP_STYLE_SRC = ["'self'", "'unsafe-inline'"]
+CSP_DEFAULT_SRC = ["'self'", "'unsafe-inline'", "ajax.googleapis.com", "cdn.jsdelivr.net"]
+CSP_STYLE_SRC = ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"]
 CSP_FRAME_ANCESTORS = ['*', 'http://127.0.0.1:8000/forum'] # TODO: figure out how to whitelist a specific host
 
 JWT_AUTH = {
